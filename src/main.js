@@ -5,3 +5,7 @@
 import "./styles/form.css";
 import "./styles/global.css";
 import "./styles/schedule.css";
+
+//Import LIBS
+
+import "./libs/dayjs.js";
