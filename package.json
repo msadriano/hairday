@@ -1,4 +1,8 @@
 {
+  "name": "hairday",
+  "description": "Aplicação Web para agendamento de atendimento",
+  "author":"Adriano de M. Sousa",
+  
   "scripts": {
     "server": "json-server --watch db.json --port 3333",
     "build": "webpack",
