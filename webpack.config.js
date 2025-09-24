@@ -20,10 +20,19 @@ module.exports = {
       directory: path.join(__dirname, "dist"),
     },
   },
-  
+
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "index.html"),
     }),
   ],
+
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"],
+      },
+    ],
+  },
 };
