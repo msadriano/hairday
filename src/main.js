@@ -9,3 +9,8 @@ import "./styles/schedule.css";
 //Import LIBS
 
 import "./libs/dayjs.js";
+
+//Import MODULES
+
+import "./modules/form/submit.js";
+import "./modules/form/date-load.js";
