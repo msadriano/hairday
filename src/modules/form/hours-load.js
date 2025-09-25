@@ -1,8 +1,11 @@
 import dayjs from "dayjs";
-import { openingHours } from "../../utils/openig-hours.js";
+import { openingHours } from "../../utils/opening-hours.js";
+import { hoursClick } from "./hours-click.js";
 
 export function openingHoursLoad() {
   const hoursList = document.getElementById("hours");
+
+  hoursList.innerHTML = "";
 
   if (!hoursList) {
     console.error("Não foi possível carregar os horários disponíveis.");
@@ -24,6 +27,8 @@ export function openingHoursLoad() {
     const hourItem = createHourItem(currentPeriod, hoursString, numericHour);
     hoursList.appendChild(hourItem);
   });
+
+  hoursClick();
 }
 
 function getCurrentPeriod(numericHour) {
@@ -52,7 +57,13 @@ function createPeriodTitle(currentPeriod) {
 }
 
 function createHourItem(currentPeriod, hoursString, numericHour) {
+  const inputDate = document.getElementById("date");
+  const todayDate = dayjs().format("YYYY-MM-DD");
+
+  const selectedDate = inputDate.value;
+
   const hourItemElement = document.createElement("li");
+
   hourItemElement.setAttribute("data-period", currentPeriod);
   hourItemElement.classList.add("hour");
   hourItemElement.value = hoursString;
@@ -61,10 +72,14 @@ function createHourItem(currentPeriod, hoursString, numericHour) {
   const currentTimeString = dayjs().format("H");
   const currentTimeNumeric = Number(currentTimeString);
 
-  if (numericHour <= currentTimeNumeric) {
-    hourItemElement.classList.add("hour-unavailable");
-  } else {
+  if (selectedDate > todayDate) {
     hourItemElement.classList.add("hour-available");
+  } else {
+    if (numericHour <= currentTimeNumeric) {
+      hourItemElement.classList.add("hour-unavailable");
+    } else {
+      hourItemElement.classList.add("hour-available");
+    }
   }
 
   return hourItemElement;
