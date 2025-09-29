@@ -1,5 +1,9 @@
 import { openingHoursLoad } from "./hours-load.js";
+import { schedulesShow } from "./schedules-show.js";
 
 const inputDate = document.getElementById("date");
 
-inputDate.onchange = () => openingHoursLoad();
+inputDate.onchange = () => {
+  openingHoursLoad();
+  schedulesShow();
+};

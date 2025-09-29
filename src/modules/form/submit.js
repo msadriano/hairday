@@ -1,11 +1,13 @@
 import dayjs from "dayjs";
+import { scheduleNew } from "../../services/schedule-new.js";
+import { schedulesShow } from "./schedules-show.js";
+import { clearClientName } from "./clientname-load.js";
 
 const form = document.querySelector("form");
 const inputDate = document.getElementById("date");
-
 const inputClientName = document.getElementById("client");
 
-form.onsubmit = (event) => {
+form.onsubmit = async (event) => {
   event.preventDefault();
 
   try {
@@ -29,18 +31,16 @@ form.onsubmit = (event) => {
     }
 
     // Gera o horário agendado completo (data e hora)
+
     const when = dayjs(dateSelected).add(hourSelected, "hour");
 
     // Cria um ID
     const id = new Date().getTime();
 
-    // Cria um objeto com todos os dados
-    const scheduledTime = {
-      id: id,
-      name: clientName,
-      when: when,
-    };
-    console.log(scheduledTime);
+    // Chama a API e adiciona um novo registro no bd
+    await scheduleNew({ id, clientName, when });
+    schedulesShow();
+    clearClientName();
   } catch (error) {
     alert("Não foi possível realizar o agendamento!");
     console.log(error);

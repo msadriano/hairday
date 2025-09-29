@@ -58,10 +58,8 @@ function createPeriodTitle(currentPeriod) {
 
 function createHourItem(currentPeriod, hoursString, numericHour) {
   const inputDate = document.getElementById("date");
-  const todayDate = dayjs().format("YYYY-MM-DD");
-
   const selectedDate = inputDate.value;
-
+  const todayDate = dayjs().format("YYYY-MM-DD");
   const hourItemElement = document.createElement("li");
 
   hourItemElement.setAttribute("data-period", currentPeriod);
