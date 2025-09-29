@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import { scheduleNew } from "../../services/schedule-new.js";
 import { schedulesShow } from "./schedules-show.js";
 import { clearClientName } from "./clientname-load.js";
+import { openingHoursLoad } from "./hours-load.js";
 
 const form = document.querySelector("form");
 const inputDate = document.getElementById("date");
@@ -41,6 +42,7 @@ form.onsubmit = async (event) => {
     await scheduleNew({ id, clientName, when });
     schedulesShow();
     clearClientName();
+    openingHoursLoad();
   } catch (error) {
     alert("Não foi possível realizar o agendamento!");
     console.log(error);

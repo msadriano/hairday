@@ -1,9 +1,17 @@
 import dayjs from "dayjs";
 import { openingHours } from "../../utils/opening-hours.js";
 import { hoursClick } from "./hours-click.js";
+import { scheduleFetchByDay } from "../../services/schedule-fetch-by-day.js";
 
-export function openingHoursLoad() {
+export async function openingHoursLoad() {
   const hoursList = document.getElementById("hours");
+  const inputDate = document.getElementById("date");
+  const selectedDate = inputDate.value;
+
+  const scheduledHours = await scheduleFetchByDay(selectedDate);
+  const newScheduledHours = scheduledHours.map((scheduleH) => {
+    return dayjs.utc(scheduleH.when).tz("America/Sao_Paulo").format("HH:mm");
+  });
 
   hoursList.innerHTML = "";
 
@@ -24,7 +32,12 @@ export function openingHoursLoad() {
       period = currentPeriod;
     }
 
-    const hourItem = createHourItem(currentPeriod, hoursString, numericHour);
+    const hourItem = createHourItem(
+      currentPeriod,
+      hoursString,
+      numericHour,
+      newScheduledHours
+    );
     hoursList.appendChild(hourItem);
   });
 
@@ -56,7 +69,12 @@ function createPeriodTitle(currentPeriod) {
   return titleHtmlElement;
 }
 
-function createHourItem(currentPeriod, hoursString, numericHour) {
+function createHourItem(
+  currentPeriod,
+  hoursString,
+  numericHour,
+  newScheduledHours
+) {
   const inputDate = document.getElementById("date");
   const selectedDate = inputDate.value;
   const todayDate = dayjs().format("YYYY-MM-DD");
@@ -73,11 +91,19 @@ function createHourItem(currentPeriod, hoursString, numericHour) {
   if (selectedDate > todayDate) {
     hourItemElement.classList.add("hour-available");
   } else {
-    if (numericHour <= currentTimeNumeric) {
-      hourItemElement.classList.add("hour-unavailable");
-    } else {
+    if (numericHour > currentTimeNumeric) {
       hourItemElement.classList.add("hour-available");
+    } else {
+      hourItemElement.classList.add("hour-unavailable");
     }
+  }
+
+  if (
+    hourItemElement.classList.contains("hour-available") &&
+    newScheduledHours.includes(hoursString) === true
+  ) {
+    hourItemElement.classList.remove("hour-available");
+    hourItemElement.classList.add("hour-unavailable");
   }
 
   return hourItemElement;
