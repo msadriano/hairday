@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { schedulesLoad } from "../schedules/schedules-load.js";
+import { schedulesLoad } from "./schedules-load.js";
 
 export async function schedulesShow() {
   const dailySchedules = await schedulesLoad();

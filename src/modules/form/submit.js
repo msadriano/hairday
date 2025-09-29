@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { scheduleNew } from "../../services/schedule-new.js";
-import { schedulesShow } from "./schedules-show.js";
+import { schedulesShow } from "../schedules/schedules-show.js";
 import { clearClientName } from "./clientname-load.js";
 import { openingHoursLoad } from "./hours-load.js";
 
@@ -36,7 +36,7 @@ form.onsubmit = async (event) => {
     const when = dayjs(dateSelected).add(hourSelected, "hour");
 
     // Cria um ID
-    const id = new Date().getTime();
+    const id = String(new Date().getTime());
 
     // Chama a API e adiciona um novo registro no bd
     await scheduleNew({ id, clientName, when });

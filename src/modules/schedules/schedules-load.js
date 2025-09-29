@@ -5,5 +5,12 @@ export async function schedulesLoad() {
   const inputDateValue = inputDate.value;
   const dailySchedules = await scheduleFetchByDay(inputDateValue);
 
+  dailySchedules.sort((a, b) => {
+    const timeStampA = new Date(a.when).getTime();
+    const timeStampB = new Date(b.when).getTime();
+    return timeStampA - timeStampB;
+  });
+
+  console.log(dailySchedules);
   return dailySchedules;
 }
